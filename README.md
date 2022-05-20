@@ -3,9 +3,7 @@
 This package adds to the ocelot the ability to retrieve services from the labels of your docker containers.
 
 > Ocelot allows you to specify a service discovery provider and will use this to find the host and port for the downstream service Ocelot is forwarding a request to.
->At the moment this is only supported in the GlobalConfiguration section which means the same service discovery provider will be used for all Routes you specify a ServiceName for at Route level.
-
-
+> At the moment this is only supported in the GlobalConfiguration section which means the same service discovery provider will be used for all Routes you specify a ServiceName for at Route level.
 
 ## Please show the value
 
@@ -26,7 +24,6 @@ Your company logo will be shown here for all developers, building a strong posit
 ## Installation
 
 The library is available as a nuget package. You can install it as any other nuget package from your IDE, try to search by `Ocelot.Provider.Docker`. You can find package details [on this webpage](https://www.nuget.org/packages/Ocelot.Provider.Docker).
-
 
 ```xml
 // Package Manager
@@ -64,11 +61,11 @@ If no load balancer is specified Ocelot will not load balance requests.
 
 ```json
 {
-    "DownstreamPathTemplate": "/api/posts/{postId}",
-    "DownstreamScheme": "https",
-    "UpstreamPathTemplate": "/posts/{postId}",
-    "UpstreamHttpMethod": [ "Put" ],
-    "ServiceName": "product",
+    "DownstreamPathTemplate": "/v2/{everything}",
+    "DownstreamScheme": "http",
+    "UpstreamPathTemplate": "/petstore/{everything}",
+    "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+    "ServiceName": "petstore",
     "LoadBalancerOptions": {
         "Type": "LeastConnection"
     },
@@ -76,10 +73,8 @@ If no load balancer is specified Ocelot will not load balance requests.
 ```
 
 When this is set up Ocelot will lookup the downstream host and port from the service discover provider and load balance requests across any available services.
+If you want to poll Docker for the latest services rather than per request (default behaviour) then you need to set the following configuration.
 
- If you want to poll Docker for the latest services rather than per request (default behaviour) then you need to set the following configuration.
- 
- 
 ```json
 "ServiceDiscoveryProvider": {
     "Scheme": "tcp",
@@ -91,6 +86,27 @@ When this is set up Ocelot will lookup the downstream host and port from the ser
 ```
 
 The polling interval is in milliseconds and tells Ocelot how often to call Docker for changes in service configuration.
+
+## Configuration
+
+The following example implemented the docker provider.
+ 
+```yaml
+version: '3.7'
+
+services:
+  petstore:
+    image: swaggerapi/petstore
+    environment:
+      - SWAGGER_URL=http://localhost
+      - WAGGER_BASE_PATH=/v2
+    ports:
+      - '80:8080'
+    labels:
+      - ocelot.service=petstore
+      - ocelot.scheme=http
+      - ocelot.port=80
+```
 
 ## How to Contribute
 

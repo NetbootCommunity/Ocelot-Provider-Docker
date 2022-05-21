@@ -47,11 +47,13 @@ The following is required in the GlobalConfiguration.
 The Provider is required and if you do not specify a host and port the Docker default will be used.
 
 ```json
-"ServiceDiscoveryProvider": {
-    "Scheme": "tcp",
-    "Host": "localhost",
-    "Port": 2375,
+"GlobalConfiguration": {
+  "UseServiceDiscovery": true,
+  "ServiceDiscoveryProvider": {
+    "Scheme": "unix",
+    "Host": "/var/run/docker.sock",
     "Type": "Docker"
+  }
 }
 ```
 
@@ -76,13 +78,15 @@ When this is set up Ocelot will lookup the downstream host and port from the ser
 If you want to poll Docker for the latest services rather than per request (default behaviour) then you need to set the following configuration.
 
 ```json
-"ServiceDiscoveryProvider": {
-    "Scheme": "tcp",
-    "Host": "localhost",
-    "Port": 2375,
-    "Type": "PollDocker",
-    "PollingInterval": 100
-}
+ "GlobalConfiguration": {
+    "UseServiceDiscovery": true,
+    "ServiceDiscoveryProvider": {
+      "Scheme": "unix",
+      "Host": "/var/run/docker.sock",
+      "PollingInterval": 2000,
+      "Type": "PollDocker"
+    }
+  }
 ```
 
 The polling interval is in milliseconds and tells Ocelot how often to call Docker for changes in service configuration.
@@ -90,7 +94,7 @@ The polling interval is in milliseconds and tells Ocelot how often to call Docke
 ## Configuration
 
 The following example implemented the docker provider.
- 
+
 ```yaml
 version: '3.7'
 
@@ -98,15 +102,14 @@ services:
   petstore:
     image: swaggerapi/petstore
     environment:
-      - SWAGGER_URL=http://localhost
-      - WAGGER_BASE_PATH=/v2
-    ports:
-      - '80:8080'
+      - SWAGGER_BASE_PATH=/v2
     labels:
       - ocelot.service=petstore
       - ocelot.scheme=http
-      - ocelot.port=80
+      - ocelot.port=8080
 ```
+
+> If you have multiple networks, you must add the following label to select the correct network: `ocelot.scheme`
 
 ## How to Contribute
 

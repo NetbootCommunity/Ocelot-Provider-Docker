@@ -4,7 +4,7 @@ services:
   apigateway:
     image: ${DOCKER_REGISTRY-}apigateway
     build:
-      context: .
+      context: ../
       dockerfile: samples/ApiGateway/Dockerfile
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

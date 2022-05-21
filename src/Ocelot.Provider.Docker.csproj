@@ -1,9 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Authors>Thomas ILLIET</Authors>
+    <Company>NetbootCommunity</Company>
+    <PackageId>Ocelot.Provider.Docker</PackageId>
+    <PackageDescription>This package adds to the ocelot the ability to retrieve services from the labels of your docker containers.</PackageDescription>
+    <IsPackable>true</IsPackable>
+    <PackageProjectUrl>https://github.com/NetbootCommunity</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NetbootCommunity/Ocelot-Provider-Docker</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Thomas ILLIET, NetbootCommunity contributors</Copyright>
+    <PackageTags>utility library cache microservice dotnet</PackageTags>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

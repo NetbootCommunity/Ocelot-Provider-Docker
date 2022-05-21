@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: samples/ApiGateway/Dockerfile
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  petstorev11:
+    image: swaggerapi/petstore
+    environment:
+      - SWAGGER_BASE_PATH=/v1
+    labels:
+      - ocelot.service=petstorev1
+      - ocelot.port=8080
+
+  petstorev21:
+    image: swaggerapi/petstore
+    environment:
+      - SWAGGER_BASE_PATH=/v2
+    labels:
+      - ocelot.service=petstorev2
+      - ocelot.port=8080
+
+  petstorev22:
+    image: swaggerapi/petstore
+    environment:
+      - SWAGGER_BASE_PATH=/v2
+    labels:
+      - ocelot.service=petstorev2
+      - ocelot.port=8080

@@ -1,0 +1,33 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/v1/{everything}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/petstore/v1/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "ServiceName": "petstorev1",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/v2/{everything}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/petstore/v2/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "ServiceName": "petstorev2",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "UseServiceDiscovery": true,
+    "ServiceDiscoveryProvider": {
+      "Scheme": "unix",
+      "Host": "/var/run/docker.sock",
+      "PollingInterval": 2000,
+      "Type": "PollDocker"
+    }
+  }
+}

@@ -53,7 +53,7 @@ jobs:
       with:
         dotnet-version: '6.0.x'
     - name: Delete docker project in solution
-      run: dotnet sln remove docker\docker-compose.dcproj
+      run: dotnet sln remove docker/docker-compose.dcproj
     - name: Pack for publish
       if: github.event_name == 'release'
       run: dotnet pack --output ./artifacts --configuration Release -p:PackageVersion=${{ github.event.release.tag_name }}

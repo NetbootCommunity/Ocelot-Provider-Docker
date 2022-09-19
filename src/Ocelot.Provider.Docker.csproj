@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Docker.DotNet" Version="3.125.10" />
+    <PackageReference Include="Docker.DotNet" Version="3.125.12" />
     <PackageReference Include="Ocelot" Version="18.0.0" />
   </ItemGroup>
 
